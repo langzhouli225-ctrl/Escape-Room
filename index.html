@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Detective Office</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=IBM+Plex+Sans:wght@400;500;700&family=Special+Elite&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <div class="background-noise"></div>
+    <main class="desk-shell">
+      <header class="topbar">
+        <h1>Privacy Detective Office</h1>
+        <p class="topbar-subtitle">Casebook: HCP Data Exposure Series</p>
+      </header>
+
+      <section id="entrance" class="panel active-panel">
+        <h2>Entrance Briefing</h2>
+        <p>
+          Tonight, you enter an investigation room where three privacy incidents are waiting to be solved.
+          Collect clues, unlock secure assets, and prevent unnecessary personal data from leaving the office.
+        </p>
+
+        <div class="form-row">
+          <label for="playerName">English Name</label>
+          <input id="playerName" type="text" placeholder="Enter your English name" />
+          <p id="nameError" class="inline-error" aria-live="polite"></p>
+        </div>
+
+        <div class="supabase-config">
+          <details>
+            <summary>Supabase Connection (required for persistence)</summary>
+            <div class="config-grid">
+              <label for="supabaseUrl">Supabase URL</label>
+              <input id="supabaseUrl" type="text" placeholder="https://YOUR_PROJECT.supabase.co" />
+              <label for="supabaseAnonKey">Supabase Anon Key</label>
+              <input id="supabaseAnonKey" type="password" placeholder="Paste anon key" />
+            </div>
+          </details>
+        </div>
+
+        <button id="startBtn" class="primary-btn">Start Investigation</button>
+        <div id="typingInstruction" class="typing-box" aria-live="polite"></div>
+      </section>
+
+      <section id="room1" class="panel hidden">
+        <h2>Room 1 · The Locked Drawer</h2>
+        <p class="instruction">
+          Select 4 pieces of information that directly identify the HCP. Each selection reveals a code digit.
+          Enter the code to unlock the drawer.
+        </p>
+
+        <div class="sheet">
+          <h3>HCP Engagement Planning Sheet</h3>
+          <div id="room1Items" class="sheet-grid"></div>
+        </div>
+
+        <div class="drawer-area">
+          <button id="drawer" class="drawer locked" aria-label="Locked desk drawer">Desk Drawer</button>
+          <div class="code-strip">
+            <span>Revealed Digits:</span>
+            <strong id="revealedDigits">----</strong>
+          </div>
+          <div class="unlock-row">
+            <input id="room1CodeInput" maxlength="4" placeholder="Enter 4-digit code" />
+            <button id="room1UnlockBtn" class="primary-btn">Unlock Drawer</button>
+          </div>
+          <p id="room1Feedback" class="feedback" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section id="room2" class="panel hidden">
+        <h2>Room 2 · Profile Card Analysis</h2>
+        <p class="instruction">Which combination is most likely to identify a specific HCP?</p>
+
+        <div class="combo-grid">
+          <button class="combo-btn" data-combo="A">
+            <strong>Combination A</strong>
+            <span>China</span>
+            <span>Physician</span>
+            <span>Attended event</span>
+          </button>
+          <button class="combo-btn" data-combo="B">
+            <strong>Combination B</strong>
+            <span>Chengdu</span>
+            <span>Gastroenterology</span>
+            <span>Deputy Director</span>
+            <span>Spoke at provincial IBD forum in Oct 2025</span>
+          </button>
+          <button class="combo-btn" data-combo="C">
+            <strong>Combination C</strong>
+            <span>Vegetarian</span>
+            <span>Prefers rail travel</span>
+            <span>Needs hotel booking</span>
+          </button>
+        </div>
+
+        <p id="room2Feedback" class="feedback" aria-live="polite"></p>
+
+        <div id="laptopPanel" class="laptop-panel hidden">
+          <p>Use the password fragment to unlock the laptop on the desk and continue your investigation.</p>
+          <p class="password-fragment">Password fragment: <strong>IDENTIFY</strong></p>
+          <div class="unlock-row">
+            <input id="laptopPassword" placeholder="Enter Password" />
+            <button id="unlockLaptopBtn" class="primary-btn">Unlock Laptop</button>
+          </div>
+          <p id="laptopFeedback" class="feedback" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section id="room3" class="panel hidden">
+        <h2>Room 3 · Outbound File Review</h2>
+        <p class="instruction">
+          Found a file containing HCP PI that is about to be sent to the logistics agency.
+          Remove 4 fields they should not receive.
+        </p>
+
+        <div class="sheet">
+          <h3>Outbound File Fields</h3>
+          <div id="room3Fields" class="sheet-grid"></div>
+        </div>
+
+        <button id="submitRoom3" class="primary-btn">Clear Dataset</button>
+        <p id="room3Feedback" class="feedback" aria-live="polite"></p>
+      </section>
+
+      <section id="final" class="panel hidden">
+        <h2>Case Closed</h2>
+        <div class="final-card">
+          <p>Three cases.</p>
+          <p>One careful investigator.</p>
+          <p>
+            You identified personal data, recognized indirect identification, and stopped unnecessary
+            information from leaving the office.
+          </p>
+          <p>The case files are sealed.</p>
+          <p id="finalName"></p>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
